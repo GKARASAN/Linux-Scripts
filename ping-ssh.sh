@@ -7,16 +7,24 @@ echo -e "                        Powered by Kalaiyarasan              \n"
 echo -e "*** This script will check ping and ssh ***\n"
 
 read -p "Enter IP: " IP
-
+read -p "If you have SSH port, enter here or leave it empty: " PORT
 echo -e "\n *** Script will run now. Please wait few seconds ***\n"
 
 p_output=$(ping $IP -c5)
 
-echo "root@terminal:~# ping $IP" 
+TERMINAL=$(hostname)
+
+echo -e "root@${TERMINAL}:~# ping $IP" 
 echo -e "$p_output\n"
 
-echo "root@terminal:~# ssh $IP"
-ssh $IP
+if [[ -n "$PORT" ]]; then
+	echo "root@${TERMINAL}:~# ssh $IP -p $PORT"
+	ssh $IP -p $PORT
+else
+	echo "root@${TERMINAL}:~# ssh $IP"
+	ssh $IP
+fi
+
 #s_output=$(ssh $IP)
 
 #echo "root@terminal:~# ssh $IP" 
